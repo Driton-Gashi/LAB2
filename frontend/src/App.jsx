@@ -2,14 +2,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // pages & components
 import Home from './pages/Home'
-import Navbar from './components/Navbar'
-
+import Header from './components/Header'
+import Footer from './components/Footer';
 function App() {
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar />
+        <Header />
         <div className="pages">
           <Routes>
             <Route 
@@ -17,7 +17,9 @@ function App() {
               element={<Home />} 
             />
           </Routes>
+
         </div>
+        <Footer />
       </BrowserRouter>
     </div>
   );
