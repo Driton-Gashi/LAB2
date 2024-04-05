@@ -1,17 +1,23 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+// CSS
+import "./css/main.css"
+import "./css/fontawesome-all.min.css"
+import "./jquery/myJquery";
 
 // pages & components
 import Home from './pages/Home'
-import Header from './components/Header'
-import Footer from './components/Footer';
+import Sidebar from './components/Sidebar'
 import Dashboard from './pages/Dashboard';
+import Elements from './pages/Elements';
+import Generic from './pages/Generic';
+
 function App() {
 
   return (
-    <div className="App">
+    <>
       <BrowserRouter>
-        <Header />
-        <div className="pages">
+        <div id="wrapper">
+          <main id='main'>
           <Routes>
             <Route 
               path="/" 
@@ -21,12 +27,22 @@ function App() {
               path="/dashboard" 
               element={<Dashboard />} 
             />
+            <Route 
+              path="/elements" 
+              element={<Elements />} 
+            />
+            <Route 
+              path="/generic" 
+              element={<Generic />} 
+            />
           </Routes>
+          </main>
+        <Sidebar />
+          
 
         </div>
-        <Footer />
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 
