@@ -374,7 +374,7 @@ const Elements = () => {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="2"></td>
+                    <td colSpan="2"></td>
                     <td>100.00</td>
                   </tr>
                 </tfoot>
@@ -420,7 +420,7 @@ const Elements = () => {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colspan="2"></td>
+                    <td colSpan="2"></td>
                     <td>100.00</td>
                   </tr>
                 </tfoot>
@@ -529,7 +529,6 @@ const Elements = () => {
                     type="text"
                     name="demo-name"
                     id="demo-name"
-                    value=""
                     placeholder="Name"
                   />
                 </div>
@@ -538,7 +537,6 @@ const Elements = () => {
                     type="email"
                     name="demo-email"
                     id="demo-email"
-                    value=""
                     placeholder="Email"
                   />
                 </div>
@@ -556,7 +554,7 @@ const Elements = () => {
                     type="radio"
                     id="demo-priority-low"
                     name="demo-priority"
-                    checked
+                    
                   />
                   <label for="demo-priority-low">Low</label>
                 </div>
@@ -585,7 +583,7 @@ const Elements = () => {
                     type="checkbox"
                     id="demo-human"
                     name="demo-human"
-                    checked
+                    
                   />
                   <label for="demo-human">I am a human</label>
                 </div>
@@ -602,12 +600,12 @@ const Elements = () => {
                     <li>
                       <input
                         type="submit"
-                        value="Send Message"
+                        placeholder="Send Message"
                         className="primary"
                       />
                     </li>
                     <li>
-                      <input type="reset" value="Reset" />
+                      <input type="reset" placeholder="Reset" />
                     </li>
                   </ul>
                 </div>

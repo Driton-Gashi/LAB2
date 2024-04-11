@@ -3,7 +3,7 @@ const Header = () => {
   return (
     <header id="header">
         <a href="index.html" className="logo">
-          <strong>Editorial</strong> by HTML5 UP
+          <strong>LAB 2</strong> Project
         </a>
         <ul className="icons">
           <li>

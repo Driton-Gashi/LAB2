@@ -1,6 +1,28 @@
-import Header from "../components/Header"
+import { useState, useEffect } from "react";
+import Header from "../components/Header";
+import Post from "../components/homeComponents/Post";
 
 const Home = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    // Fetch posts from the WordPress REST API
+    fetch("https://gazetashqiptare.al/wp-json/wp/v2/posts?_embed")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch posts");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Set the fetched posts to the state
+        setPosts(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
+
   return (
     <div className="inner">
       <Header />
@@ -91,114 +113,9 @@ const Home = () => {
           <h2>Ipsum sed dolor</h2>
         </header>
         <div className="posts">
-          <article>
-            <a href="#" className="image">
-              <img src="images/pic01.jpg" alt="" />
-            </a>
-            <h3>Interdum aenean</h3>
-            <p>
-              Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-              dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-              lorem feugiat tempus aliquam.
-            </p>
-            <ul className="actions">
-              <li>
-                <a href="#" className="button">
-                  More
-                </a>
-              </li>
-            </ul>
-          </article>
-          <article>
-            <a href="#" className="image">
-              <img src="images/pic02.jpg" alt="" />
-            </a>
-            <h3>Nulla amet dolore</h3>
-            <p>
-              Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-              dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-              lorem feugiat tempus aliquam.
-            </p>
-            <ul className="actions">
-              <li>
-                <a href="#" className="button">
-                  More
-                </a>
-              </li>
-            </ul>
-          </article>
-          <article>
-            <a href="#" className="image">
-              <img src="images/pic03.jpg" alt="" />
-            </a>
-            <h3>Tempus ullamcorper</h3>
-            <p>
-              Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-              dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-              lorem feugiat tempus aliquam.
-            </p>
-            <ul className="actions">
-              <li>
-                <a href="#" className="button">
-                  More
-                </a>
-              </li>
-            </ul>
-          </article>
-          <article>
-            <a href="#" className="image">
-              <img src="images/pic04.jpg" alt="" />
-            </a>
-            <h3>Sed etiam facilis</h3>
-            <p>
-              Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-              dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-              lorem feugiat tempus aliquam.
-            </p>
-            <ul className="actions">
-              <li>
-                <a href="#" className="button">
-                  More
-                </a>
-              </li>
-            </ul>
-          </article>
-          <article>
-            <a href="#" className="image">
-              <img src="images/pic05.jpg" alt="" />
-            </a>
-            <h3>Feugiat lorem aenean</h3>
-            <p>
-              Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-              dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-              lorem feugiat tempus aliquam.
-            </p>
-            <ul className="actions">
-              <li>
-                <a href="#" className="button">
-                  More
-                </a>
-              </li>
-            </ul>
-          </article>
-          <article>
-            <a href="#" className="image">
-              <img src="images/pic06.jpg" alt="" />
-            </a>
-            <h3>Amet varius aliquam</h3>
-            <p>
-              Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-              dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-              lorem feugiat tempus aliquam.
-            </p>
-            <ul className="actions">
-              <li>
-                <a href="#" className="button">
-                  More
-                </a>
-              </li>
-            </ul>
-          </article>
+          {posts.map((post, index) => (
+            <Post key={index} post={post} />
+          ))}
         </div>
       </section>
     </div>

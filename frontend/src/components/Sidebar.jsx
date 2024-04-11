@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink} from 'react-router-dom';
 import Footer from "../components/Footer";
 
 const Sidebar = () => {
@@ -17,12 +17,12 @@ const Sidebar = () => {
         
         menuOpeners.forEach(openerElement => {
             if (openerElement !== opener) {
-                openerElement.classList.remove('active');
+                openerElement.className.remove('active');
             }
         });
         
         if (opener) {
-            opener.classList.toggle('active');
+            opener.className.toggle('active');
             // You can trigger any additional event handling here if needed
         }
     };
@@ -41,9 +41,9 @@ const Sidebar = () => {
                         <h2>Menu</h2>
                     </header>
                     <ul>
-                        <li><Link to="/">Homepage</Link></li>
-                        <li><Link to="generic">Generic</Link></li>
-                        <li><Link to="elements">Elements</Link></li>
+                        <li><NavLink to="/">Homepage</NavLink></li>
+                        <li><NavLink to="generic">Generic</NavLink></li>
+                        <li><NavLink to="elements">Elements</NavLink></li>
                         <li>
                             <span className="opener" onClick={toggleMenu}>Submenu</span>
                             <ul>
@@ -74,17 +74,17 @@ const Sidebar = () => {
                     <header className="major">
                         <h2>Ante interdum</h2>
                     </header>
-                    <div class="mini-posts">
+                    <div className="mini-posts">
 										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
+											<a href="#" className="image"><img src="images/pic07.jpg" alt="" /></a>
 											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
+											<a href="#" className="image"><img src="images/pic08.jpg" alt="" /></a>
 											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
+											<a href="#" className="image"><img src="images/pic09.jpg" alt="" /></a>
 											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
 										</article>
 									</div>
@@ -95,10 +95,10 @@ const Sidebar = () => {
                         <h2>Get in touch</h2>
                     </header>
                     <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
+									<ul className="contact">
+										<li className="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
+										<li className="icon solid fa-phone">(000) 000-0000</li>
+										<li className="icon solid fa-home">1234 Somewhere Road #8254<br />
 										Nashville, TN 00000-0000</li>
 									</ul>
                 </section>
