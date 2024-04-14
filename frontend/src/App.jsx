@@ -15,7 +15,7 @@ import OurNews from "./pages/OurNews";
 import NewsByCategory from "./pages/NewsByCategory";
 
 function App() {
-const [category, setCategory] = useState('bota')
+const [category, setCategory] = useState('bluetooth')
 const updateCategory = (newCategory) => {
   setCategory(newCategory);
 };

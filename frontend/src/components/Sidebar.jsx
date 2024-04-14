@@ -66,8 +66,13 @@ const Sidebar = ({changeCategoryName}) => {
             </NavLink>
         </li>
         <li>
-            <NavLink to="news-by-category" onClick={() => changeCategoryName('flit-me-psikologen')}>
-                Flit Me Psikologen
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('politike')}>
+            politike
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('bluetooth')}>
+                Bluetooth
             </NavLink>
         </li>
     </ul>
