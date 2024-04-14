@@ -4,29 +4,28 @@ import Footer from "../components/Footer";
 
 const Sidebar = () => {
     const [sidebarActive, setSidebarActive] = useState(false);
-
+    const [isfirstSubmenuActive,setisFirstSubmenuActive] = useState(false);
+    const [isSecondSubmenuActive,setisSecondSubmenuActive] = useState(false);
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
     };
 
-    const toggleMenu = (event) => {
-        event.preventDefault();
-        const target = event.target;
-        const opener = target.closest('.opener');
-        const menuOpeners = document.querySelectorAll('#menu .opener');
-        
-        menuOpeners.forEach(openerElement => {
-            if (openerElement !== opener) {
-                openerElement.className.remove('active');
-            }
-        });
-        
-        if (opener) {
-            opener.className.toggle('active');
-            // You can trigger any additional event handling here if needed
+    const toggleFirstMenu =()=>{
+        if(isfirstSubmenuActive){
+            setisFirstSubmenuActive(false);
         }
-    };
-
+        else{
+            setisFirstSubmenuActive(true);
+        }
+    }
+    const toggleSecondMenu =()=>{
+        if(isSecondSubmenuActive){
+            setisSecondSubmenuActive(false);
+        }
+        else{
+            setisSecondSubmenuActive(true);
+        }
+    }
     return (
         <div id="sidebar" className={sidebarActive ? '' : 'inactive'}>
             <div className="inner">
@@ -46,7 +45,7 @@ const Sidebar = () => {
                         <li><NavLink to="elements">Elements</NavLink></li>
                         <li><NavLink to="our-news">Our News</NavLink></li>
                         <li>
-                            <span className="opener" onClick={toggleMenu}>Submenu</span>
+                            <span className={`opener ${isfirstSubmenuActive?'active':''}`} onClick={toggleFirstMenu}>Submenu</span>
                             <ul>
                                 <li><a href="#">Lorem Dolor</a></li>
                                 <li><a href="#">Ipsum Adipiscing</a></li>
@@ -57,7 +56,7 @@ const Sidebar = () => {
                         <li><a href="#">Etiam Dolore</a></li>
                         <li><a href="#">Adipiscing</a></li>
                         <li>
-                            <span className="opener" onClick={toggleMenu}>Another Submenu</span>
+                            <span className={`opener ${isSecondSubmenuActive?'active':''}`} onClick={toggleSecondMenu}>Another Submenu</span>
                             <ul>
                                 <li><a href="#">Lorem Dolor</a></li>
                                 <li><a href="#">Ipsum Adipiscing</a></li>
