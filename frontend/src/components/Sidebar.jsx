@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, NavLink} from 'react-router-dom';
 import Footer from "../components/Footer";
 
-const Sidebar = () => {
+const Sidebar = ({changeCategoryName}) => {
+
     const [sidebarActive, setSidebarActive] = useState(false);
     const [isfirstSubmenuActive,setisFirstSubmenuActive] = useState(false);
     const [isSecondSubmenuActive,setisSecondSubmenuActive] = useState(false);
@@ -45,14 +46,33 @@ const Sidebar = () => {
                         <li><NavLink to="elements">Elements</NavLink></li>
                         <li><NavLink to="our-news">Our News</NavLink></li>
                         <li>
-                            <span className={`opener ${isfirstSubmenuActive?'active':''}`} onClick={toggleFirstMenu}>Submenu</span>
-                            <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
-                            </ul>
-                        </li>
+    <span className={`opener ${isfirstSubmenuActive ? 'active' : ''}`} onClick={toggleFirstMenu}>
+        Sipas Kategorive
+    </span>
+    <ul>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('bota')}>
+                Bota
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('aktualitet')}>
+                Aktualitet
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('ekonomi-sociale')}>
+                Ekonomi Sociale
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('flit-me-psikologen')}>
+                Flit Me Psikologen
+            </NavLink>
+        </li>
+    </ul>
+</li>
+
                         <li><a href="#">Etiam Dolore</a></li>
                         <li><a href="#">Adipiscing</a></li>
                         <li>
