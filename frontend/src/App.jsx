@@ -9,9 +9,8 @@ import "./css/style.css"
 import Home from "./pages/Home";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
-import Elements from "./pages/Elements";
 import Generic from "./pages/Generic";
-
+import OurNews from "./pages/OurNews";
 
 function App() {
   return (
@@ -22,8 +21,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/elements" element={<Elements />} />
               <Route path="/generic" element={<Generic />} />
+              <Route path="/our-news" element={<OurNews />} />
             </Routes>
           </main>
           <Sidebar />

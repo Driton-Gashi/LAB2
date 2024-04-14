@@ -44,6 +44,7 @@ const Sidebar = () => {
                         <li><NavLink to="/">Homepage</NavLink></li>
                         <li><NavLink to="generic">Generic</NavLink></li>
                         <li><NavLink to="elements">Elements</NavLink></li>
+                        <li><NavLink to="our-news">Our News</NavLink></li>
                         <li>
                             <span className="opener" onClick={toggleMenu}>Submenu</span>
                             <ul>
