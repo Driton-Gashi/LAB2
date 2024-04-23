@@ -1,6 +1,5 @@
 const Post = ({ post }) => {
   const image = post._embedded['wp:featuredmedia'][0].source_url;
- console.log(image);
   return (
     <article>
       <a href="#" className="image">

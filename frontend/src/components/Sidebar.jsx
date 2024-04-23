@@ -2,31 +2,31 @@ import React, { useState } from 'react';
 import { Link, NavLink} from 'react-router-dom';
 import Footer from "../components/Footer";
 
-const Sidebar = () => {
-    const [sidebarActive, setSidebarActive] = useState(false);
+const Sidebar = ({changeCategoryName}) => {
 
+    const [sidebarActive, setSidebarActive] = useState(false);
+    const [isfirstSubmenuActive,setisFirstSubmenuActive] = useState(false);
+    const [isSecondSubmenuActive,setisSecondSubmenuActive] = useState(false);
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
     };
 
-    const toggleMenu = (event) => {
-        event.preventDefault();
-        const target = event.target;
-        const opener = target.closest('.opener');
-        const menuOpeners = document.querySelectorAll('#menu .opener');
-        
-        menuOpeners.forEach(openerElement => {
-            if (openerElement !== opener) {
-                openerElement.className.remove('active');
-            }
-        });
-        
-        if (opener) {
-            opener.className.toggle('active');
-            // You can trigger any additional event handling here if needed
+    const toggleFirstMenu =()=>{
+        if(isfirstSubmenuActive){
+            setisFirstSubmenuActive(false);
         }
-    };
-
+        else{
+            setisFirstSubmenuActive(true);
+        }
+    }
+    const toggleSecondMenu =()=>{
+        if(isSecondSubmenuActive){
+            setisSecondSubmenuActive(false);
+        }
+        else{
+            setisSecondSubmenuActive(true);
+        }
+    }
     return (
         <div id="sidebar" className={sidebarActive ? '' : 'inactive'}>
             <div className="inner">
@@ -46,18 +46,42 @@ const Sidebar = () => {
                         <li><NavLink to="elements">Elements</NavLink></li>
                         <li><NavLink to="our-news">Our News</NavLink></li>
                         <li>
-                            <span className="opener" onClick={toggleMenu}>Submenu</span>
-                            <ul>
-                                <li><a href="#">Lorem Dolor</a></li>
-                                <li><a href="#">Ipsum Adipiscing</a></li>
-                                <li><a href="#">Tempus Magna</a></li>
-                                <li><a href="#">Feugiat Veroeros</a></li>
-                            </ul>
-                        </li>
+    <span className={`opener ${isfirstSubmenuActive ? 'active' : ''}`} onClick={toggleFirstMenu}>
+        Sipas Kategorive
+    </span>
+    <ul>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('bota')}>
+                Bota
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('aktualitet')}>
+                Aktualitet
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('ekonomi-sociale')}>
+                Ekonomi Sociale
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('politike')}>
+            politike
+            </NavLink>
+        </li>
+        <li>
+            <NavLink to="news-by-category" onClick={() => changeCategoryName('bluetooth')}>
+                Bluetooth
+            </NavLink>
+        </li>
+    </ul>
+</li>
+
                         <li><a href="#">Etiam Dolore</a></li>
                         <li><a href="#">Adipiscing</a></li>
                         <li>
-                            <span className="opener" onClick={toggleMenu}>Another Submenu</span>
+                            <span className={`opener ${isSecondSubmenuActive?'active':''}`} onClick={toggleSecondMenu}>Another Submenu</span>
                             <ul>
                                 <li><a href="#">Lorem Dolor</a></li>
                                 <li><a href="#">Ipsum Adipiscing</a></li>
