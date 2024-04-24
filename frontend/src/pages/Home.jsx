@@ -1,9 +1,33 @@
 import { useState, useEffect } from "react";
+import { formatDistanceToNow } from "date-fns";
 import Header from "../components/Header";
 import Post from "../components/homeComponents/Post";
-
 const Home = () => {
   const [posts, setPosts] = useState([]);
+
+  const [latestPost, setLatestPost] = useState(null);
+
+  useEffect(() => {
+    const fetchLatestPost = async () => {
+      try {
+        const response = await fetch(
+          "https://ubt.podemarketing.com/wp-json/wp/v2/posts?orderby=date&order=desc&per_page=1&_embed"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch latest post");
+        }
+        const data = await response.json();
+        if (data && data.length > 0) {
+          const latestPostData = data[0]; // Assuming the response is an array with one post
+          setLatestPost(latestPostData);
+        }
+      } catch (error) {
+        console.error("Error fetching latest post:", error);
+      }
+    };
+
+    fetchLatestPost();
+  }, []); // Run this effect only once when the component mounts
 
   useEffect(() => {
     // Fetch posts from the WordPress REST API
@@ -22,7 +46,6 @@ const Home = () => {
         console.error("Error fetching posts:", error);
       });
   }, []);
-
   return (
     <div className="inner">
       <Header />
@@ -30,35 +53,34 @@ const Home = () => {
         <div className="content">
           <header>
             <h1>
-              Hi, I’m Editorial
-              <br />
-              by HTML5 UP
+              {latestPost && latestPost.title.rendered}
             </h1>
-            <p>A free and fully responsive site template</p>
+            <p>
+              {latestPost &&
+                formatDistanceToNow(new Date(latestPost.date), {
+                  addSuffix: true,
+                })}
+            </p>
           </header>
           <p>
-            Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin
-            aliquam facilisis ante interdum congue. Integer mollis, nisl amet
-            convallis, porttitor magna ullamcorper, amet egestas mauris. Ut
-            magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas.
-            Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.
+          {latestPost && latestPost.excerpt.rendered}
           </p>
           <ul className="actions">
             <li>
-              <a href="#" className="button big">
-                Learn More
+              <a href={latestPost.link} className="button big">
+                Read More
               </a>
             </li>
           </ul>
         </div>
         <span className="image object">
-          <img src="images/pic10.jpg" alt="" />
+          <img src={latestPost && latestPost._embedded['wp:featuredmedia'][0].source_url} alt="" />
         </span>
       </section>
 
       <section>
         <header className="major">
-          <h2>Erat lacinia</h2>
+          <h2>Kategorite</h2>
         </header>
         <div className="features">
           <article>
@@ -110,7 +132,7 @@ const Home = () => {
 
       <section>
         <header className="major">
-          <h2>Ipsum sed dolor</h2>
+          <h2>Latest News</h2>
         </header>
         <div className="posts">
           {posts.map((post, index) => (
