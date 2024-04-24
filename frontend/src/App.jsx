@@ -15,9 +15,10 @@ import OurNews from "./pages/OurNews";
 import NewsByCategory from "./pages/NewsByCategory";
 
 function App() {
-const [category, setCategory] = useState('bluetooth')
+const [category, setCategory] = useState(4)
 const updateCategory = (newCategory) => {
   setCategory(newCategory);
+
 };
   return (
     <>
@@ -29,7 +30,7 @@ const updateCategory = (newCategory) => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/generic" element={<Generic />} />
               <Route path="/our-news" element={<OurNews />} />
-              <Route path="/news-by-category" element={<NewsByCategory categoryName={category} />} />
+              <Route path="/news-by-category" element={<NewsByCategory categoryID={category} />} />
             </Routes>
           </main>
           <Sidebar changeCategoryName={updateCategory}/>

@@ -1,19 +1,24 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import CategoryPost from "../components/NewsByCategoryComponents/CategoryPost";
 
-const NewsByCategory = ({ categoryName }) => {
+const NewsByCategory = ({ categoryID }) => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [api, setApi] = useState(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryID}&_embed&page=${currentPage}`);
   const postsPerPage = 10; // Adjust this value as needed
 
   useEffect(() => {
+    setApi(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryID}&_embed&page=${currentPage}`);
+  }, [categoryID, currentPage]);
+
+  useEffect(() => {
     fetchPosts();
-  }, [categoryName, currentPage]);
+  }, [api]);
 
   const fetchPosts = () => {
-    fetch(`https://gazetashqiptare.al/wp-json/wp/v2/posts?category=${categoryName}&_embed&page=${currentPage}`)
+    fetch(api)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
@@ -36,11 +41,10 @@ const NewsByCategory = ({ categoryName }) => {
 
   const renderPagination = () => {
     const paginationItems = [];
-    const maxPagesToShow = 5; // Adjust this value as needed
+    const maxPagesToShow = 5;
     const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
-    // Previous button
     paginationItems.push(
       <li key="prev">
         <span
@@ -52,7 +56,6 @@ const NewsByCategory = ({ categoryName }) => {
       </li>
     );
 
-    // Page numbers
     for (let i = startPage; i <= endPage; i++) {
       paginationItems.push(
         <li key={i}>
@@ -67,7 +70,6 @@ const NewsByCategory = ({ categoryName }) => {
       );
     }
 
-    // Next button
     paginationItems.push(
       <li key="next">
         <span
@@ -87,14 +89,13 @@ const NewsByCategory = ({ categoryName }) => {
       <Header />
       <section>
         <header className="major">
-          <h2>News about "{categoryName}" category</h2>
+          <h2>News about "{categoryID}" category</h2>
         </header>
         <div className="posts">
           {posts.map((post, index) => (
             <CategoryPost key={index} post={post} />
           ))}
         </div>
-        {/* Pagination */}
         <ul className="pagination">
           {renderPagination()}
         </ul>

@@ -50,31 +50,32 @@ const Sidebar = ({changeCategoryName}) => {
         Sipas Kategorive
     </span>
     <ul>
-        <li>
-            <NavLink to="news-by-category" onClick={() => changeCategoryName('bota')}>
-                Bota
-            </NavLink>
-        </li>
-        <li>
-            <NavLink to="news-by-category" onClick={() => changeCategoryName('aktualitet')}>
-                Aktualitet
-            </NavLink>
-        </li>
-        <li>
-            <NavLink to="news-by-category" onClick={() => changeCategoryName('ekonomi-sociale')}>
-                Ekonomi Sociale
-            </NavLink>
-        </li>
-        <li>
-            <NavLink to="news-by-category" onClick={() => changeCategoryName('politike')}>
-            politike
-            </NavLink>
-        </li>
-        <li>
-            <NavLink to="news-by-category" onClick={() => changeCategoryName('bluetooth')}>
-                Bluetooth
-            </NavLink>
-        </li>
+    <li>
+    <NavLink to="news-by-category" onClick={() => changeCategoryName(1)}>
+        Bota
+    </NavLink>
+</li>
+<li>
+    <NavLink to="news-by-category" onClick={() => changeCategoryName(2)}>
+        Aktualitet
+    </NavLink>
+</li>
+<li>
+    <NavLink to="news-by-category" onClick={() => changeCategoryName(3)}>
+        Ekonomi Sociale
+    </NavLink>
+</li>
+<li>
+    <NavLink to="news-by-category" onClick={() => changeCategoryName(4)}>
+        Politike
+    </NavLink>
+</li>
+<li>
+    <NavLink to="news-by-category" onClick={() => changeCategoryName(5)}>
+        Bluetooth
+    </NavLink>
+</li>
+
     </ul>
 </li>
 
