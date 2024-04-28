@@ -1657,7 +1657,12 @@ button,
         margin: -3.5em 0 0 -3.5em;
         position: absolute;
         top: 50%;
-        width: 7em; }
+        width: 7em;
+      transition: 0.2s ease all; }
+        .features article .icon:hover:after{
+          transform: rotate(45deg) translate(-88%, -17%);
+          margin: 0;
+        }
     .features article .content {
       -moz-flex-grow: 1;
       -webkit-flex-grow: 1;

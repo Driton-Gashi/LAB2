@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Post from "../components/homeComponents/Post";
 const Home = () => {
   const [posts, setPosts] = useState([]);
-
+  const [users, setUsers] = useState([]);
   const [latestPost, setLatestPost] = useState(null);
 
   useEffect(() => {
@@ -29,6 +29,27 @@ const Home = () => {
     fetchLatestPost();
   }, []); // Run this effect only once when the component mounts
 
+
+  useEffect(() => {
+    fetch("https://ubt.podemarketing.com/wp-json/wp/v2/users")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Set the fetched posts to the state
+        setUsers(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+
+  }, [])
+  
+  
   useEffect(() => {
     // Fetch posts from the WordPress REST API
     fetch("https://ubt.podemarketing.com/wp-json/wp/v2/posts?_embed")
@@ -67,7 +88,7 @@ const Home = () => {
           </p>
           <ul className="actions">
             <li>
-              <a href={latestPost.link} className="button big">
+              <a href={latestPost && latestPost.link} className="button big">
                 Read More
               </a>
             </li>
@@ -80,53 +101,23 @@ const Home = () => {
 
       <section>
         <header className="major">
-          <h2>Kategorite</h2>
+          <h2>Authors</h2>
         </header>
         <div className="features">
-          <article>
-            <span className="icon fa-gem"></span>
+        {users.map((user) => (
+            <article title="Click To Read All Posts from this Author" key={user.id}>
+            {/* <span className="icon fa-gem"></span> */}
+            <span style={{cursor:"pointer"}} onClick={()=>window.location=user.link} className="icon">
+            <img style={{transform:"rotate(45deg)"}} src={user.avatar_urls["96"]} alt="" />
+            </span>
             <div className="content">
-              <h3>Portitor ullamcorper</h3>
+              <a href={user.link}><h3>{user.name}</h3></a>
               <p>
-                Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-                dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-                lorem feugiat tempus aliquam.
+                {user.description?user.description:"Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam."}
               </p>
             </div>
           </article>
-          <article>
-            <span className="icon solid fa-paper-plane"></span>
-            <div className="content">
-              <h3>Sapien veroeros</h3>
-              <p>
-                Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-                dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-                lorem feugiat tempus aliquam.
-              </p>
-            </div>
-          </article>
-          <article>
-            <span className="icon solid fa-rocket"></span>
-            <div className="content">
-              <h3>Quam lorem ipsum</h3>
-              <p>
-                Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-                dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-                lorem feugiat tempus aliquam.
-              </p>
-            </div>
-          </article>
-          <article>
-            <span className="icon solid fa-signal"></span>
-            <div className="content">
-              <h3>Sed magna finibus</h3>
-              <p>
-                Aenean ornare velit lacus, ac varius enim lorem ullamcorper
-                dolore. Proin aliquam facilisis ante interdum. Sed nulla amet
-                lorem feugiat tempus aliquam.
-              </p>
-            </div>
-          </article>
+          ))}
         </div>
       </section>
 
