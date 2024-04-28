@@ -1,21 +1,45 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import CategoryPost from "../components/NewsByCategoryComponents/CategoryPost";
+import { useParams } from "react-router-dom";
 
-const NewsByCategory = ({ categoryID }) => {
+const NewsByCategory = () => {
+  const { categoryId } = useParams();
+
+  const [categoryName, setCategoryName] = useState("");
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [api, setApi] = useState(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryID}&_embed&page=${currentPage}`);
+  const [api, setApi] = useState(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryId}&_embed&page=${currentPage}`);
   const postsPerPage = 10; // Adjust this value as needed
 
   useEffect(() => {
-    setApi(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryID}&_embed&page=${currentPage}`);
-  }, [categoryID, currentPage]);
+    setApi(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryId}&_embed&page=${currentPage}`);
+  }, [categoryId, currentPage]);
 
   useEffect(() => {
     fetchPosts();
   }, [api]);
+
+  
+  useEffect(() => {
+    fetch(`https://ubt.podemarketing.com/wp-json/wp/v2/categories/${categoryId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Set the fetched posts to the state
+        setCategoryName(data.name);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+
+  }, [categoryId])
+  
 
   const fetchPosts = () => {
     fetch(api)
@@ -89,7 +113,7 @@ const NewsByCategory = ({ categoryID }) => {
       <Header />
       <section>
         <header className="major">
-          <h2>News about "{categoryID}" category</h2>
+          <h2>News about "{categoryName}" category</h2>
         </header>
         <div className="posts">
           {posts.map((post, index) => (

@@ -28,7 +28,7 @@ const updateCategory = (newCategory) => {
               <Route path="/" element={<Home />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/our-news" element={<OurNews />} />
-              <Route path="/news-by-category" element={<NewsByCategory categoryID={category} />} />
+              <Route path="/news-by-category/:categoryId" element={<NewsByCategory categoryID={category} />} />
             </Routes>
           </main>
           <Sidebar changeCategoryName={updateCategory}/>

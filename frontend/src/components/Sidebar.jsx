@@ -1,11 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const Sidebar = ({ changeCategoryName }) => {
+  const [categories, setCategories] = useState([]);
   const [sidebarActive, setSidebarActive] = useState(false);
   const [isfirstSubmenuActive, setisFirstSubmenuActive] = useState(false);
   const [isSecondSubmenuActive, setisSecondSubmenuActive] = useState(false);
+
+
+  useEffect(() => {
+    fetch("https://ubt.podemarketing.com/wp-json/wp/v2/categories")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch Categories");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Set the fetched posts to the state
+        setCategories(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching Categories:", error);
+      });
+
+  }, [])
+  
+
   const toggleSidebar = () => {
     setSidebarActive(!sidebarActive);
   };
@@ -52,46 +74,22 @@ const Sidebar = ({ changeCategoryName }) => {
                 Sipas Kategorive
               </span>
               <ul>
-                <li>
-                  <NavLink
-                    to="news-by-category"
-                    onClick={() => changeCategoryName(1)}
-                  >
-                    Bota
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="news-by-category"
-                    onClick={() => changeCategoryName(2)}
-                  >
-                    Aktualitet
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="news-by-category"
-                    onClick={() => changeCategoryName(3)}
-                  >
-                    Ekonomi Sociale
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="news-by-category"
-                    onClick={() => changeCategoryName(4)}
-                  >
-                    Politike
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="news-by-category"
-                    onClick={() => changeCategoryName(5)}
-                  >
-                    Bluetooth
-                  </NavLink>
-                </li>
+              {
+                categories.map((category)=>(
+                  <li key={category.id}>
+                    <NavLink
+                      to={`/news-by-category/${category.id}`}
+                      onClick={() => {
+                        changeCategoryName(category.id);
+                      }}
+                    >
+                      {category.name}
+                    </NavLink>
+                  </li>
+                ))
+              }
+
+               
               </ul>
             </li>
 
