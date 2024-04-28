@@ -107,9 +107,11 @@ const Home = () => {
         {users.map((user) => (
             <article title="Click To Read All Posts from this Author" key={user.id}>
             {/* <span className="icon fa-gem"></span> */}
-            <span style={{cursor:"pointer"}} onClick={()=>window.location=user.link} className="icon">
+           <a style={{border:"0"}} href={user.link}>
+           <span className="icon">
             <img style={{transform:"rotate(45deg)"}} src={user.avatar_urls["96"]} alt="" />
             </span>
+           </a>
             <div className="content">
               <a href={user.link}><h3>{user.name}</h3></a>
               <p>
