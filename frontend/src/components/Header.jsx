@@ -1,10 +1,11 @@
 
-const Header = () => {
+const Header = ({children}) => {
   return (
     <header id="header">
-        <a href="index.html" className="logo">
-          <strong>LAB 2</strong> Project
-        </a>
+        <div className="logo">
+          {children?children:<strong>LAB 2 Project</strong>}
+          
+        </div>
         <ul className="icons">
           <li>
             <a href="#" className="icon brands fa-twitter">
