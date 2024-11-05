@@ -19,11 +19,12 @@ const Home = () => {
 
         const postsData = await fetchPosts();
         setPosts(postsData);
+
       } catch (error) {
         console.error("Error loading content:", error);
       }
     };
-
+    
     loadContent();
   }, []);
 
@@ -37,6 +38,7 @@ const Home = () => {
               {latestPost && latestPost.title.rendered}
             </h1>
             <p>
+            {/* Date */}
               {latestPost &&
                 formatDistanceToNow(new Date(latestPost.date), {
                   addSuffix: true,

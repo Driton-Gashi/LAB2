@@ -7,7 +7,7 @@ const OurNews = () => {
 
   useEffect(() => {
     // Fetch posts from the WordPress REST API
-    fetch("https://ubt.podemarketing.com/wp-json/wp/v2/posts?_embed")
+    fetch("https://ubt.dritongashi.com/wp-json/wp/v2/posts?_embed")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch posts");

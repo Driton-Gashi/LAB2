@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import CategoryPost from "../components/NewsByCategoryComponents/CategoryPost";
 import { useParams } from "react-router-dom";
@@ -10,44 +10,18 @@ const NewsByCategory = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [api, setApi] = useState(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryId}&_embed&page=${currentPage}`);
-  const postsPerPage = 10; // Adjust this value as needed
 
-  useEffect(() => {
-    setApi(`https://ubt.podemarketing.com/wp-json/wp/v2/posts?categories=${categoryId}&_embed&page=${currentPage}`);
-  }, [categoryId, currentPage]);
-
-  useEffect(() => {
-    fetchPosts();
-  }, [api]);
-
-  
-  useEffect(() => {
-    fetch(`https://ubt.podemarketing.com/wp-json/wp/v2/categories/${categoryId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch users");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Set the fetched posts to the state
-        setCategoryName(data.name);
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
-      });
-
-  }, [categoryId])
-  
+ 
 
   const fetchPosts = () => {
+    const api = `https://ubt.dritongashi.com/wp-json/wp/v2/posts?categories=${categoryId}&_embed&page=${currentPage}`;
+    
     fetch(api)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
-        const totalPages = parseInt(response.headers.get('X-WP-TotalPages'));
+        const totalPages = parseInt(response.headers.get('X-WP-TotalPages')) || 1;
         setTotalPages(totalPages);
         return response.json();
       })
@@ -58,6 +32,30 @@ const NewsByCategory = () => {
         console.error("Error fetching posts:", error);
       });
   };
+
+  const fetchCategoryName = () => {
+    fetch(`https://ubt.dritongashi.com/wp-json/wp/v2/categories/${categoryId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch category");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCategoryName(data.name);
+      })
+      .catch((error) => {
+        console.error("Error fetching category:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, [categoryId, currentPage]);
+
+  useEffect(() => {
+    fetchCategoryName();
+  }, [categoryId]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -86,7 +84,10 @@ const NewsByCategory = () => {
           <a
             href="#"
             className={`page ${currentPage === i ? 'active' : ''}`}
-            onClick={() => handlePageChange(i)}
+            onClick={(e) => {
+              e.preventDefault();
+              handlePageChange(i);
+            }}
           >
             {i}
           </a>
@@ -117,7 +118,7 @@ const NewsByCategory = () => {
         </header>
         <div className="posts">
           {posts.map((post, index) => (
-            <CategoryPost key={index} post={post} />
+            <CategoryPost key={post.id} post={post} />
           ))}
         </div>
         <ul className="pagination">

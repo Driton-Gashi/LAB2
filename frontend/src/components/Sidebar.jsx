@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Footer from "../components/Footer";
 
@@ -10,7 +10,7 @@ const Sidebar = ({ changeCategoryName }) => {
 
 
   useEffect(() => {
-    fetch("https://ubt.podemarketing.com/wp-json/wp/v2/categories")
+    fetch("https://ubt.dritongashi.com/wp-json/wp/v2/categories")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch Categories");
