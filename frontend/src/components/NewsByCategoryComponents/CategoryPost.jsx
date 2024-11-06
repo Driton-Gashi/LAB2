@@ -1,21 +1,29 @@
+import { Link } from "react-router-dom";
+
 const Post = ({ post }) => {
-    const image = post._embedded['wp:featuredmedia'][0].source_url;
+
+  const shortenExcerpt = (excerpt, wordLimit) => {
+    const plainText = excerpt.replace(/<[^>]+>/g, ''); 
+    const words = plainText.split(" ");
+    if (words.length <= wordLimit) return plainText;
+    return words.slice(0, wordLimit).join(" ") + "...";
+  };
+
+    const image = post?._embedded['wp:featuredmedia'][0].source_url;
     return (
       <article>
-        <a href={post.link} className="image">
+        <Link to={`/post/${post.id}`} className="image">
           <img src={image} alt="" />
-        </a>
-        <h3>{post.title.rendered}</h3>
-
+        </Link>
+        <h3>{post?.title.rendered}</h3>
         <p>
-       {post.excerpt.rendered}
-         
+       {shortenExcerpt(post?.excerpt.rendered, 50)}
         </p>
         <ul className="actions">
           <li>
-          <a href={post.link} className="button">
-            More
-          </a>
+          <Link to={`/post/${post.id}`} className="button">
+           Read More
+          </Link>
           </li>
         </ul>
       </article>

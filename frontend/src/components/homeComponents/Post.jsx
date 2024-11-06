@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 // Utility function to shorten excerpts
 const shortenExcerpt = (excerpt, wordLimit) => {
   const plainText = excerpt.replace(/<[^>]+>/g, ''); 
@@ -27,9 +28,9 @@ const Post = ({ post }) => {
       </p>
       <ul className="actions">
         <li>
-          <a href={post.link} className="button">
-            More
-          </a>
+          <Link to={`post/${post.id}`} className="button">
+            Read More
+          </Link>
         </li>
       </ul>
     </article>

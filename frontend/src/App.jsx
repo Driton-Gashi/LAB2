@@ -14,6 +14,7 @@ import OurNews from "./pages/OurNews";
 import NewsByCategory from "./pages/NewsByCategory";
 import AuthorPosts from "./pages/AuthorPosts";
 import SinglePost from "./pages/SinglePost";
+import SearchedPosts from "./pages/SearchedPosts";
 
 function App() {
 const [category, setCategory] = useState(4)
@@ -33,6 +34,8 @@ const updateCategory = (newCategory) => {
               <Route path="/news-by-category/:categoryId" element={<NewsByCategory categoryID={category} />} />
               <Route path="/author/:authorId" element={<AuthorPosts />} />
               <Route path="/post/:postId" element={<SinglePost/>}/>
+              <Route path="/search/:word" element={<SearchedPosts/>}/>
+              
             </Routes>
           </main>
           <Sidebar changeCategoryName={updateCategory}/>

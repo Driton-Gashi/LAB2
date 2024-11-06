@@ -28,6 +28,14 @@ const Home = () => {
     loadContent();
   }, []);
 
+  // Utility function to shorten excerpts
+const removeTags = (excerpt) => {
+  const plainText = excerpt.replace(/<[^>]+>/g, ''); 
+  return plainText.toString();
+};
+
+
+
   return (
     <div className="inner">
       <Header />
@@ -46,7 +54,7 @@ const Home = () => {
             </p>
           </header>
           <p>
-          {latestPost && latestPost.excerpt.rendered}
+          {latestPost && removeTags(latestPost.excerpt.rendered)}
           </p>
           <ul className="actions">
             <li>

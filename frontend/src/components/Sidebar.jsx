@@ -1,32 +1,27 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import Footer from "../components/Footer";
-
+import {getCategories} from "../utils/api";
 const Sidebar = ({ changeCategoryName }) => {
   const [categories, setCategories] = useState([]);
   const [sidebarActive, setSidebarActive] = useState(false);
   const [isfirstSubmenuActive, setisFirstSubmenuActive] = useState(false);
   const [isSecondSubmenuActive, setisSecondSubmenuActive] = useState(false);
 
-
   useEffect(() => {
-    fetch("https://ubt.dritongashi.com/wp-json/wp/v2/categories")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch Categories");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Set the fetched posts to the state
-        setCategories(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching Categories:", error);
-      });
+    const loadContent = async () => {
+      try {
+        const categoriesFetched = await getCategories();
+        setCategories(categoriesFetched);
 
-  }, [])
-  
+      } catch (error) {
+        console.error("Error loading content:", error);
+      }
+    };
+    
+    loadContent();
+  }, []);
+
 
   const toggleSidebar = () => {
     setSidebarActive(!sidebarActive);

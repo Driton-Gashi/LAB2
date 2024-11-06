@@ -2,111 +2,74 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import CategoryPost from "../components/NewsByCategoryComponents/CategoryPost";
 import { useParams } from "react-router-dom";
+import { postsByCategory, categoryById } from "../utils/api";
 
 const NewsByCategory = () => {
   const { categoryId } = useParams();
-
   const [categoryName, setCategoryName] = useState("");
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
- 
+  const loadContent = async () => {
+    try {
+      // Fetch posts and category name in parallel
+      const [postResponse, categoryResponse] = await Promise.all([
+        postsByCategory(categoryId, currentPage),
+        categoryById(categoryId),
+      ]);
 
-  const fetchPosts = () => {
-    const api = `https://ubt.dritongashi.com/wp-json/wp/v2/posts?categories=${categoryId}&_embed&page=${currentPage}`;
-    
-    fetch(api)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch posts");
-        }
-        const totalPages = parseInt(response.headers.get('X-WP-TotalPages')) || 1;
-        setTotalPages(totalPages);
-        return response.json();
-      })
-      .then((data) => {
-        setPosts(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching posts:", error);
-      });
-  };
-
-  const fetchCategoryName = () => {
-    fetch(`https://ubt.dritongashi.com/wp-json/wp/v2/categories/${categoryId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch category");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCategoryName(data.name);
-      })
-      .catch((error) => {
-        console.error("Error fetching category:", error);
-      });
+      setPosts(postResponse.data);
+      setTotalPages(postResponse.totalPages);
+      setCategoryName(categoryResponse.name);
+    } catch (error) {
+      console.error("Error loading content:", error);
+    }
   };
 
   useEffect(() => {
-    fetchPosts();
+    loadContent();
   }, [categoryId, currentPage]);
 
-  useEffect(() => {
-    fetchCategoryName();
-  }, [categoryId]);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
   const renderPagination = () => {
-    const paginationItems = [];
     const maxPagesToShow = 5;
     const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
     const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
-    paginationItems.push(
-      <li key="prev">
-        <span
-          className={`button ${currentPage === 1 ? 'disabled' : ''}`}
-          onClick={() => handlePageChange(currentPage - 1)}
-        >
-          Prev
-        </span>
-      </li>
-    );
-
-    for (let i = startPage; i <= endPage; i++) {
-      paginationItems.push(
-        <li key={i}>
-          <a
-            href="#"
-            className={`page ${currentPage === i ? 'active' : ''}`}
-            onClick={(e) => {
-              e.preventDefault();
-              handlePageChange(i);
-            }}
+    return (
+      <>
+        <li>
+          <span
+            className={`button ${currentPage === 1 ? "disabled" : ""}`}
+            onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           >
-            {i}
-          </a>
+            Prev
+          </span>
         </li>
-      );
-    }
-
-    paginationItems.push(
-      <li key="next">
-        <span
-          className={`button ${currentPage === totalPages ? 'disabled' : ''}`}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          Next
-        </span>
-      </li>
+        {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
+          <li key={i + startPage}>
+            <a
+              href="#"
+              className={`page ${currentPage === i + startPage ? "active" : ""}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentPage(i + startPage);
+              }}
+            >
+              {i + startPage}
+            </a>
+          </li>
+        ))}
+        <li>
+          <span
+            className={`button ${currentPage === totalPages ? "disabled" : ""}`}
+            onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </span>
+        </li>
+      </>
     );
-
-    return paginationItems;
   };
 
   return (
@@ -117,13 +80,11 @@ const NewsByCategory = () => {
           <h2>News about "{categoryName}" category</h2>
         </header>
         <div className="posts">
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <CategoryPost key={post.id} post={post} />
           ))}
         </div>
-        <ul className="pagination">
-          {renderPagination()}
-        </ul>
+        <ul className="pagination">{renderPagination()}</ul>
       </section>
     </div>
   );
