@@ -34,13 +34,11 @@ const SinglePost = () => {
     return <p>Loading...</p>;
   }
 
-  const { title, date, excerpt, content } = post;
+  const { title, date, excerpt, content, _embedded } = post;
 
   return (
     <div className="inner">
-      <Header>
-        <h2>{title?.rendered}</h2>
-      </Header>
+      <Header/>
       <section id="banner">
         <div className="content">
           <header>
@@ -62,13 +60,13 @@ const SinglePost = () => {
             </li>
           </ul>
         </div>
-        {/* <span className="image object">
+        <span className="image object">
           {_embedded?.["wp:featuredmedia"]?.[0]?.source_url ? (
             <img src={_embedded["wp:featuredmedia"][0].source_url} alt={title?.rendered} />
           ) : (
             <p>No image available</p>
           )}
-        </span> */}
+        </span>
       </section>
     </div>
   );

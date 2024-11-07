@@ -3,6 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 import Header from "../components/Header";
 import Post from "../components/homeComponents/Post";
 import { fetchLatestPost, fetchUsers, fetchPosts } from "../utils/api";
+import { Link } from "react-router-dom";
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -43,10 +44,9 @@ const removeTags = (excerpt) => {
         <div className="content">
           <header>
             <h1>
-              {latestPost && latestPost.title.rendered}
+              {latestPost?.title?.rendered}
             </h1>
             <p>
-            {/* Date */}
               {latestPost &&
                 formatDistanceToNow(new Date(latestPost.date), {
                   addSuffix: true,
@@ -58,9 +58,9 @@ const removeTags = (excerpt) => {
           </p>
           <ul className="actions">
             <li>
-              <a href={latestPost && latestPost.link} className="button big">
+              <Link to={`post/${latestPost && latestPost.id}`} className="button big">
                 Read More
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
